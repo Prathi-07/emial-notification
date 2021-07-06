@@ -1,13 +1,12 @@
 pipeline {
-    agent any
-    tools {
-        maven 'MAVEN'
+    agent any{
+    tool name: 'MAVEN', type: 'maven'
     }
    
     stages{
         stage('Build'){
             steps{
-                 sh script: 'mvn clean package'
+                 sh 'mvn clean package'
             }
         }
     }

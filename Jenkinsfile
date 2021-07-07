@@ -1,21 +1,22 @@
 pipeline {
     agent any
     tools {
-        maven 'MAVEN'
+        maven 'maven3'
     }
     
     stages{
         stage('Build'){
             steps{
                  sh script: 'mvn clean package'
-           
+                 
             }
         }
         stage('Upload War To Nexus'){
             steps{
-                script{  
-                      def mavenPom = readMavenPom file: 'pom.xml'
+                script{
 
+                    def mavenPom = readMavenPom file: 'pom.xml'
+                    
                     nexusArtifactUploader artifacts: [
                         [
                             artifactId: 'simple-app', 
@@ -23,15 +24,15 @@ pipeline {
                             file: "target/simple-app-${mavenPom.version}.war", 
                             type: 'war'
                         ]
-                    ],
-                            credentialsId: 'nexus3',
-                            groupId: 'in.javahome',
-                            nexusUrl: '172.31.4.229:8081',
-                            nexusVersion: 'nexus3',
-                            protocol: 'http',
-                            repository: 'simpleapp-release',
-                            version: "${mavenPom.version}"
-                } 
+                    ], 
+                    credentialsId: 'nexus3', 
+                    groupId: 'in.javahome', 
+                    nexusUrl: '172.31.4.229:8081', 
+                    nexusVersion: 'nexus3', 
+                    protocol: 'http', 
+                    repository: simpleapp-release, 
+                    version: "${mavenPom.version}"
+                    }
             }
         }
     }

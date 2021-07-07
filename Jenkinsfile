@@ -5,8 +5,7 @@ pipeline {
     }
     options {
         buildDiscarder(logRotator(daysToKeepStr: '5', numToKeepStr: '7')
-
-  }
+    }
     stages{
         stage('Build'){
             steps{
